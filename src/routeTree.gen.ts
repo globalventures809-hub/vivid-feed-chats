@@ -14,8 +14,10 @@ import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as ResetRouteImport } from './routes/reset'
 import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotRouteImport } from './routes/forgot'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
@@ -50,6 +52,11 @@ const SetupRoute = SetupRouteImport.update({
   path: '/setup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetRoute = ResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PolicyRoute = PolicyRouteImport.update({
   id: '/policy',
   path: '/policy',
@@ -58,6 +65,11 @@ const PolicyRoute = PolicyRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotRoute = ForgotRouteImport.update({
+  id: '/forgot',
+  path: '/forgot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -104,8 +116,10 @@ const AppProfileIdRoute = AppProfileIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
+  '/reset': typeof ResetRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
@@ -121,8 +135,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
+  '/reset': typeof ResetRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
@@ -139,8 +155,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/forgot': typeof ForgotRoute
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
+  '/reset': typeof ResetRoute
   '/setup': typeof SetupRoute
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
@@ -158,8 +176,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/forgot'
     | '/login'
     | '/policy'
+    | '/reset'
     | '/setup'
     | '/signup'
     | '/terms'
@@ -175,8 +195,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/forgot'
     | '/login'
     | '/policy'
+    | '/reset'
     | '/setup'
     | '/signup'
     | '/terms'
@@ -192,8 +214,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
+    | '/forgot'
     | '/login'
     | '/policy'
+    | '/reset'
     | '/setup'
     | '/signup'
     | '/terms'
@@ -210,8 +234,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  ForgotRoute: typeof ForgotRoute
   LoginRoute: typeof LoginRoute
   PolicyRoute: typeof PolicyRoute
+  ResetRoute: typeof ResetRoute
   SetupRoute: typeof SetupRoute
   SignupRoute: typeof SignupRoute
   TermsRoute: typeof TermsRoute
@@ -256,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SetupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset': {
+      id: '/reset'
+      path: '/reset'
+      fullPath: '/reset'
+      preLoaderRoute: typeof ResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/policy': {
       id: '/policy'
       path: '/policy'
@@ -268,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot': {
+      id: '/forgot'
+      path: '/forgot'
+      fullPath: '/forgot'
+      preLoaderRoute: typeof ForgotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -362,8 +402,10 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  ForgotRoute: ForgotRoute,
   LoginRoute: LoginRoute,
   PolicyRoute: PolicyRoute,
+  ResetRoute: ResetRoute,
   SetupRoute: SetupRoute,
   SignupRoute: SignupRoute,
   TermsRoute: TermsRoute,

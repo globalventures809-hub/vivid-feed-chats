@@ -18,6 +18,7 @@ import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppFeedRouteImport } from './routes/app.feed'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -64,10 +65,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppFeedRoute = AppFeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/setup': typeof SetupRoute
@@ -75,10 +81,11 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/feed': typeof AppFeedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/setup': typeof SetupRoute
@@ -86,11 +93,12 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/feed': typeof AppFeedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/policy': typeof PolicyRoute
   '/setup': typeof SetupRoute
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/feed': typeof AppFeedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/feed'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/feed'
   id:
     | '__root__'
     | '/'
@@ -133,11 +144,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/feed'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   PolicyRoute: typeof PolicyRoute
   SetupRoute: typeof SetupRoute
@@ -212,12 +224,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/feed': {
+      id: '/app/feed'
+      path: '/feed'
+      fullPath: '/app/feed'
+      preLoaderRoute: typeof AppFeedRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppFeedRoute: typeof AppFeedRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppFeedRoute: AppFeedRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   PolicyRoute: PolicyRoute,
   SetupRoute: SetupRoute,

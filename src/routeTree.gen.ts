@@ -9,38 +9,274 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
+import { Route as VerifyRouteImport } from './routes/verify'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SetupRouteImport } from './routes/setup'
+import { Route as PolicyRouteImport } from './routes/policy'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppPostRouteImport } from './routes/app.post'
+import { Route as AppFeedRouteImport } from './routes/app.feed'
+import { Route as AppExploreRouteImport } from './routes/app.explore'
+import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyRoute = VerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetupRoute = SetupRouteImport.update({
+  id: '/setup',
+  path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PolicyRoute = PolicyRouteImport.update({
+  id: '/policy',
+  path: '/policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPostRoute = AppPostRouteImport.update({
+  id: '/post',
+  path: '/post',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFeedRoute = AppFeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExploreRoute = AppExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileIdRoute = AppProfileIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppProfileRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/policy': typeof PolicyRoute
+  '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/verify': typeof VerifyRoute
+  '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/policy': typeof PolicyRoute
+  '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/verify': typeof VerifyRoute
+  '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/policy': typeof PolicyRoute
+  '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/verify': typeof VerifyRoute
+  '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/policy'
+    | '/setup'
+    | '/signup'
+    | '/terms'
+    | '/verify'
+    | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
+    | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/policy'
+    | '/setup'
+    | '/signup'
+    | '/terms'
+    | '/verify'
+    | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
+    | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/policy'
+    | '/setup'
+    | '/signup'
+    | '/terms'
+    | '/verify'
+    | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
+    | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  PolicyRoute: typeof PolicyRoute
+  SetupRoute: typeof SetupRoute
+  SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
+  VerifyRoute: typeof VerifyRoute
+  WelcomeRoute: typeof WelcomeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify': {
+      id: '/verify'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof VerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/setup': {
+      id: '/setup'
+      path: '/setup'
+      fullPath: '/setup'
+      preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policy': {
+      id: '/policy'
+      path: '/policy'
+      fullPath: '/policy'
+      preLoaderRoute: typeof PolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +284,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/post': {
+      id: '/app/post'
+      path: '/post'
+      fullPath: '/app/post'
+      preLoaderRoute: typeof AppPostRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/feed': {
+      id: '/app/feed'
+      path: '/feed'
+      fullPath: '/app/feed'
+      preLoaderRoute: typeof AppFeedRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/explore': {
+      id: '/app/explore'
+      path: '/explore'
+      fullPath: '/app/explore'
+      preLoaderRoute: typeof AppExploreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chat': {
+      id: '/app/chat'
+      path: '/chat'
+      fullPath: '/app/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/profile/$id': {
+      id: '/app/profile/$id'
+      path: '/$id'
+      fullPath: '/app/profile/$id'
+      preLoaderRoute: typeof AppProfileIdRouteImport
+      parentRoute: typeof AppProfileRoute
+    }
   }
 }
 
+interface AppProfileRouteChildren {
+  AppProfileIdRoute: typeof AppProfileIdRoute
+}
+
+const AppProfileRouteChildren: AppProfileRouteChildren = {
+  AppProfileIdRoute: AppProfileIdRoute,
+}
+
+const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
+  AppProfileRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppChatRoute: typeof AppChatRoute
+  AppExploreRoute: typeof AppExploreRoute
+  AppFeedRoute: typeof AppFeedRoute
+  AppPostRoute: typeof AppPostRoute
+  AppProfileRoute: typeof AppProfileRouteWithChildren
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppChatRoute: AppChatRoute,
+  AppExploreRoute: AppExploreRoute,
+  AppFeedRoute: AppFeedRoute,
+  AppPostRoute: AppPostRoute,
+  AppProfileRoute: AppProfileRouteWithChildren,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  PolicyRoute: PolicyRoute,
+  SetupRoute: SetupRoute,
+  SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
+  VerifyRoute: VerifyRoute,
+  WelcomeRoute: WelcomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

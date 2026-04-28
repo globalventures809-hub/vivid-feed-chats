@@ -45,6 +45,9 @@ function Login() {
               {loading && <Loader2 className="h-4 w-4 animate-spin" />} Sign in
             </button>
           </form>
+          <div className="mt-4 text-center">
+            <Link to="/forgot" className="text-xs text-brand font-semibold">Forgot password?</Link>
+          </div>
           <p className="mt-6 text-center text-sm text-muted-foreground">
             New here? <Link to="/signup" className="text-brand font-semibold">Create account</Link>
           </p>

@@ -12,6 +12,7 @@ export function VideoCard({
   video,
   isActive,
   shouldPreload,
+  preloadMode = "auto",
   currentUserId,
   playbackRate,
   onOpenComments,
@@ -20,6 +21,7 @@ export function VideoCard({
   video: FeedVideo;
   isActive: boolean;
   shouldPreload: boolean;
+  preloadMode?: "none" | "metadata" | "auto";
   currentUserId: string | null;
   playbackRate: number;
   onOpenComments: () => void;
@@ -142,7 +144,7 @@ export function VideoCard({
         playsInline
         loop
         muted={false}
-        preload={shouldPreload ? "auto" : "none"}
+        preload={shouldPreload ? (isActive ? "auto" : preloadMode) : "none"}
         className="absolute inset-0 m-auto max-h-full max-w-full"
         style={{ aspectRatio: video.aspect_ratio ?? 9 / 16 }}
       />

@@ -18,7 +18,12 @@ import { Route as PolicyRouteImport } from './routes/policy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppPostRouteImport } from './routes/app.post'
 import { Route as AppFeedRouteImport } from './routes/app.feed'
+import { Route as AppExploreRouteImport } from './routes/app.explore'
+import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -65,10 +70,35 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPostRoute = AppPostRouteImport.update({
+  id: '/post',
+  path: '/post',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppFeedRoute = AppFeedRouteImport.update({
   id: '/feed',
   path: '/feed',
   getParentRoute: () => AppRoute,
+} as any)
+const AppExploreRoute = AppExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileIdRoute = AppProfileIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppProfileRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -81,7 +111,12 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,7 +128,12 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,7 +146,12 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/chat': typeof AppChatRoute
+  '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
+  '/app/post': typeof AppPostRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
+  '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -120,7 +165,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
     | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -132,7 +182,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
     | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
   id:
     | '__root__'
     | '/'
@@ -144,7 +199,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/chat'
+    | '/app/explore'
     | '/app/feed'
+    | '/app/post'
+    | '/app/profile'
+    | '/app/profile/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -224,6 +284,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/post': {
+      id: '/app/post'
+      path: '/post'
+      fullPath: '/app/post'
+      preLoaderRoute: typeof AppPostRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/feed': {
       id: '/app/feed'
       path: '/feed'
@@ -231,15 +305,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFeedRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/explore': {
+      id: '/app/explore'
+      path: '/explore'
+      fullPath: '/app/explore'
+      preLoaderRoute: typeof AppExploreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chat': {
+      id: '/app/chat'
+      path: '/chat'
+      fullPath: '/app/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/profile/$id': {
+      id: '/app/profile/$id'
+      path: '/$id'
+      fullPath: '/app/profile/$id'
+      preLoaderRoute: typeof AppProfileIdRouteImport
+      parentRoute: typeof AppProfileRoute
+    }
   }
 }
 
+interface AppProfileRouteChildren {
+  AppProfileIdRoute: typeof AppProfileIdRoute
+}
+
+const AppProfileRouteChildren: AppProfileRouteChildren = {
+  AppProfileIdRoute: AppProfileIdRoute,
+}
+
+const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
+  AppProfileRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppChatRoute: typeof AppChatRoute
+  AppExploreRoute: typeof AppExploreRoute
   AppFeedRoute: typeof AppFeedRoute
+  AppPostRoute: typeof AppPostRoute
+  AppProfileRoute: typeof AppProfileRouteWithChildren
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppChatRoute: AppChatRoute,
+  AppExploreRoute: AppExploreRoute,
   AppFeedRoute: AppFeedRoute,
+  AppPostRoute: AppPostRoute,
+  AppProfileRoute: AppProfileRouteWithChildren,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -258,3 +373,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

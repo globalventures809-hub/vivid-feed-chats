@@ -25,9 +25,31 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const PROFILE_CACHE_KEY = "verde:profile:v1";
+
+function readCachedProfile(): Profile | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(PROFILE_CACHE_KEY);
+    return raw ? (JSON.parse(raw) as Profile) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedProfile(p: Profile | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (p) window.localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(p));
+    else window.localStorage.removeItem(PROFILE_CACHE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(() => readCachedProfile());
   const [loading, setLoading] = useState(true);
 
   const loadProfile = async (userId: string) => {
@@ -36,7 +58,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select("*")
       .eq("id", userId)
       .maybeSingle();
-    setProfile((data as Profile) ?? null);
+    const p = (data as Profile) ?? null;
+    setProfile(p);
+    writeCachedProfile(p);
   };
 
   useEffect(() => {
@@ -44,17 +68,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
       setSession(sess);
       if (sess?.user) {
-        // defer to avoid deadlock
+        // defer to avoid deadlock — non-blocking
         setTimeout(() => loadProfile(sess.user.id), 0);
       } else {
         setProfile(null);
+        writeCachedProfile(null);
       }
     });
 
+    // Don't block UI on profile fetch — release loading as soon as session is known.
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
       setSession(sess);
-      if (sess?.user) loadProfile(sess.user.id).finally(() => setLoading(false));
-      else setLoading(false);
+      setLoading(false);
+      if (sess?.user) {
+        // refresh profile in background; cached profile shows immediately
+        loadProfile(sess.user.id);
+      }
     });
 
     return () => sub.subscription.unsubscribe();
@@ -69,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) await loadProfile(session.user.id);
     },
     signOut: async () => {
+      writeCachedProfile(null);
       await supabase.auth.signOut();
     },
   };

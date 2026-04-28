@@ -144,7 +144,7 @@ export function VideoCard({
         playsInline
         loop
         muted={false}
-        preload={shouldPreload ? "auto" : "none"}
+        preload={shouldPreload ? (isActive ? "auto" : preloadMode) : "none"}
         className="absolute inset-0 m-auto max-h-full max-w-full"
         style={{ aspectRatio: video.aspect_ratio ?? 9 / 16 }}
       />

@@ -12,6 +12,7 @@ export function VideoCard({
   video,
   isActive,
   shouldPreload,
+  preloadMode = "auto",
   currentUserId,
   playbackRate,
   onOpenComments,
@@ -20,6 +21,7 @@ export function VideoCard({
   video: FeedVideo;
   isActive: boolean;
   shouldPreload: boolean;
+  preloadMode?: "none" | "metadata" | "auto";
   currentUserId: string | null;
   playbackRate: number;
   onOpenComments: () => void;

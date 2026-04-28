@@ -21,7 +21,7 @@ export function BottomNav() {
           return (
             <li key={it.to} className="flex-1">
               <Link
-                to={it.to}
+                to={it.to as "/app/feed"}
                 className="flex flex-col items-center gap-0.5 py-1.5 text-[10px] font-medium"
               >
                 <span

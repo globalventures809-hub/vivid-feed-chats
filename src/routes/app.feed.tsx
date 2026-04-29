@@ -55,21 +55,24 @@ function FeedPage() {
 
   const { data: videos, refetch, isLoading, error } = useQuery({
     queryKey: ["feed"],
-    queryFn: async () => {
-      const initial = await fetchFeed();
-      if (initial.length === 0) {
-        await seedFeedIfEmpty();
-        return await fetchFeed();
-      }
-      return initial;
-    },
+    queryFn: fetchFeed,
     retry: 1,
+    staleTime: 30_000,
   });
 
-  // Re-fetch when we come back online
+  // If the feed comes back empty, kick off seeding in the background and refetch.
+  // This avoids blocking the loading spinner on the slow auth-admin createUser call.
+  const [seeding, setSeeding] = useState(false);
   useEffect(() => {
-    if (network.online && error) refetch();
-  }, [network.online, error, refetch]);
+    if (isLoading || seeding) return;
+    if (videos && videos.length === 0 && network.online) {
+      setSeeding(true);
+      seedFeedIfEmpty()
+        .then(() => refetch())
+        .catch((err) => console.error("seed failed", err))
+        .finally(() => setSeeding(false));
+    }
+  }, [videos, isLoading, network.online, seeding, refetch]);
 
   const onItemRef = useCallback(
     (idx: number) => (el: HTMLDivElement | null) => {

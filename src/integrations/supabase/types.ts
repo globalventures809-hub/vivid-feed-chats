@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      boosts: {
+        Row: {
+          active: boolean
+          country: string | null
+          created_at: string
+          ends_at: string | null
+          id: string
+          starts_at: string | null
+          tier: string
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          active?: boolean
+          country?: string | null
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          starts_at?: string | null
+          tier: string
+          user_id: string
+          video_id?: string | null
+        }
+        Update: {
+          active?: boolean
+          country?: string | null
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          starts_at?: string | null
+          tier?: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: []
+      }
       comment_likes: {
         Row: {
           comment_id: string
@@ -126,6 +180,66 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          billing: string
+          country: string | null
+          created_at: string
+          currency: string
+          duration_days: number
+          id: string
+          kind: string
+          pesapal_merchant_reference: string | null
+          pesapal_order_tracking_id: string | null
+          raw_status: Json | null
+          redirect_url: string | null
+          status: string
+          tier: string
+          updated_at: string
+          user_id: string
+          video_id: string | null
+        }
+        Insert: {
+          amount: number
+          billing: string
+          country?: string | null
+          created_at?: string
+          currency?: string
+          duration_days: number
+          id?: string
+          kind: string
+          pesapal_merchant_reference?: string | null
+          pesapal_order_tracking_id?: string | null
+          raw_status?: Json | null
+          redirect_url?: string | null
+          status?: string
+          tier: string
+          updated_at?: string
+          user_id: string
+          video_id?: string | null
+        }
+        Update: {
+          amount?: number
+          billing?: string
+          country?: string | null
+          created_at?: string
+          currency?: string
+          duration_days?: number
+          id?: string
+          kind?: string
+          pesapal_merchant_reference?: string | null
+          pesapal_order_tracking_id?: string | null
+          raw_status?: Json | null
+          redirect_url?: string | null
+          status?: string
+          tier?: string
+          updated_at?: string
+          user_id?: string
+          video_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           bio: string | null
@@ -139,6 +253,8 @@ export type Database = {
           setup_complete: boolean
           updated_at: string
           username: string | null
+          verified: boolean
+          verified_until: string | null
         }
         Insert: {
           bio?: string | null
@@ -152,6 +268,8 @@ export type Database = {
           setup_complete?: boolean
           updated_at?: string
           username?: string | null
+          verified?: boolean
+          verified_until?: string | null
         }
         Update: {
           bio?: string | null
@@ -165,6 +283,8 @@ export type Database = {
           setup_complete?: boolean
           updated_at?: string
           username?: string | null
+          verified?: boolean
+          verified_until?: string | null
         }
         Relationships: []
       }
@@ -247,6 +367,36 @@ export type Database = {
         }
         Relationships: []
       }
+      verifications: {
+        Row: {
+          active: boolean
+          created_at: string
+          ends_at: string | null
+          id: string
+          starts_at: string | null
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          starts_at?: string | null
+          tier: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          starts_at?: string | null
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       videos: {
         Row: {
           aspect_ratio: number | null
@@ -282,7 +432,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      expire_boosts_and_verifications: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

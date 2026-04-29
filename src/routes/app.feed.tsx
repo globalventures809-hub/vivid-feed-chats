@@ -158,9 +158,24 @@ function FeedPage() {
         </div>
       ) : !videos || videos.length === 0 ? (
         <div className="flex h-full items-center justify-center text-muted-foreground p-8 text-center">
-          {network.online
-            ? "No videos yet. Pull down to refresh."
-            : "You're offline and no videos are cached yet. Reconnect to load the feed."}
+          {!network.online ? (
+            "You're offline and no videos are cached yet. Reconnect to load the feed."
+          ) : seeding ? (
+            <div className="flex flex-col items-center gap-3">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-brand border-t-transparent" />
+              <p>Setting up your feed for the first time…</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-3">
+              <p>No videos yet.</p>
+              <button
+                onClick={() => refetch()}
+                className="px-4 py-2 rounded-full bg-brand text-brand-foreground font-semibold text-sm"
+              >
+                Refresh
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div

@@ -1,5 +1,6 @@
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "sonner";
@@ -55,6 +56,33 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    const onCtx = (e: MouseEvent) => e.preventDefault();
+    const onCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+      e.clipboardData?.setData("text/plain", "Copying is disabled on Verde.");
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && ["c", "x", "a", "s", "p"].includes(e.key.toLowerCase())) {
+        const t = e.target as HTMLElement | null;
+        const tag = t?.tagName?.toLowerCase();
+        if (tag === "input" || tag === "textarea" || t?.isContentEditable) return;
+        e.preventDefault();
+      }
+    };
+    document.addEventListener("contextmenu", onCtx);
+    document.addEventListener("copy", onCopy);
+    document.addEventListener("cut", onCopy);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("contextmenu", onCtx);
+      document.removeEventListener("copy", onCopy);
+      document.removeEventListener("cut", onCopy);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

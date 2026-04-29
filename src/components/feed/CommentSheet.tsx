@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, X, Send, CornerDownRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -201,13 +202,15 @@ function CommentRow({
 }) {
   return (
     <div className="flex gap-2">
-      {c.author?.photo_url ? (
-        <img src={c.author.photo_url} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full object-cover`} />
-      ) : (
-        <div className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full brand-gradient`} />
-      )}
+      <Link to="/app/profile/$id" params={{ id: c.user_id }} className="shrink-0">
+        {c.author?.photo_url ? (
+          <img src={c.author.photo_url} alt="" className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full object-cover`} />
+        ) : (
+          <div className={`${compact ? "h-6 w-6" : "h-8 w-8"} rounded-full brand-gradient`} />
+        )}
+      </Link>
       <div className="flex-1 min-w-0">
-        <div className="text-xs text-muted-foreground">@{c.author?.username ?? "user"}</div>
+        <Link to="/app/profile/$id" params={{ id: c.user_id }} className="text-xs text-muted-foreground hover:text-brand">@{c.author?.username ?? "user"}</Link>
         <div className="text-sm break-words">{renderText(c.content)}</div>
         <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
           <button onClick={onReply} className="hover:text-foreground">Reply</button>

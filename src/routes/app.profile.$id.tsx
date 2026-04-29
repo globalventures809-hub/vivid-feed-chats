@@ -52,7 +52,7 @@ function UserProfile() {
 
   return (
     <div className="bg-background pb-16">
-      <div className="relative h-40">
+      <div className="relative h-44 w-full overflow-hidden">
         {profile?.cover_url
           ? <img src={profile.cover_url} alt="" className="h-full w-full object-cover" />
           : <div className="h-full w-full screen-gradient" />}
@@ -60,10 +60,10 @@ function UserProfile() {
           <ArrowLeft className="h-4 w-4" />
         </button>
       </div>
-      <div className="-mt-12 flex flex-col items-center px-6">
+      <div className="relative z-10 -mt-14 flex flex-col items-center px-6">
         {profile?.photo_url
-          ? <img src={profile.photo_url} alt="" className="h-24 w-24 rounded-full border-4 border-background object-cover" />
-          : <div className="h-24 w-24 rounded-full border-4 border-background brand-gradient" />}
+          ? <img src={profile.photo_url} alt="" className="h-28 w-28 rounded-full border-4 border-background object-cover bg-background shadow-lg" />
+          : <div className="h-28 w-28 rounded-full border-4 border-background brand-gradient shadow-lg" />}
         <h2 className="mt-3 text-xl font-bold">{profile?.name ?? "User"}</h2>
         <p className="text-sm text-muted-foreground">@{profile?.username ?? "user"}</p>
         {profile?.bio && <p className="mt-2 text-sm text-center max-w-xs">{profile.bio}</p>}

@@ -25,7 +25,9 @@ import { Route as AppPostRouteImport } from './routes/app.post'
 import { Route as AppFeedRouteImport } from './routes/app.feed'
 import { Route as AppExploreRouteImport } from './routes/app.explore'
 import { Route as AppChatRouteImport } from './routes/app.chat'
+import { Route as AppBoostRouteImport } from './routes/app.boost'
 import { Route as AppProfileIdRouteImport } from './routes/app.profile.$id'
+import { Route as ApiPublicPesapalIpnRouteImport } from './routes/api/public/pesapal-ipn'
 
 const WelcomeRoute = WelcomeRouteImport.update({
   id: '/welcome',
@@ -107,10 +109,20 @@ const AppChatRoute = AppChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBoostRoute = AppBoostRouteImport.update({
+  id: '/boost',
+  path: '/boost',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppProfileIdRoute = AppProfileIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AppProfileRoute,
+} as any)
+const ApiPublicPesapalIpnRoute = ApiPublicPesapalIpnRouteImport.update({
+  id: '/api/public/pesapal-ipn',
+  path: '/api/public/pesapal-ipn',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -125,11 +137,13 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/boost': typeof AppBoostRoute
   '/app/chat': typeof AppChatRoute
   '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
   '/app/post': typeof AppPostRoute
   '/app/profile': typeof AppProfileRouteWithChildren
+  '/api/public/pesapal-ipn': typeof ApiPublicPesapalIpnRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesByTo {
@@ -144,11 +158,13 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/boost': typeof AppBoostRoute
   '/app/chat': typeof AppChatRoute
   '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
   '/app/post': typeof AppPostRoute
   '/app/profile': typeof AppProfileRouteWithChildren
+  '/api/public/pesapal-ipn': typeof ApiPublicPesapalIpnRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRoutesById {
@@ -164,11 +180,13 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/verify': typeof VerifyRoute
   '/welcome': typeof WelcomeRoute
+  '/app/boost': typeof AppBoostRoute
   '/app/chat': typeof AppChatRoute
   '/app/explore': typeof AppExploreRoute
   '/app/feed': typeof AppFeedRoute
   '/app/post': typeof AppPostRoute
   '/app/profile': typeof AppProfileRouteWithChildren
+  '/api/public/pesapal-ipn': typeof ApiPublicPesapalIpnRoute
   '/app/profile/$id': typeof AppProfileIdRoute
 }
 export interface FileRouteTypes {
@@ -185,11 +203,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/boost'
     | '/app/chat'
     | '/app/explore'
     | '/app/feed'
     | '/app/post'
     | '/app/profile'
+    | '/api/public/pesapal-ipn'
     | '/app/profile/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -204,11 +224,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/boost'
     | '/app/chat'
     | '/app/explore'
     | '/app/feed'
     | '/app/post'
     | '/app/profile'
+    | '/api/public/pesapal-ipn'
     | '/app/profile/$id'
   id:
     | '__root__'
@@ -223,11 +245,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/verify'
     | '/welcome'
+    | '/app/boost'
     | '/app/chat'
     | '/app/explore'
     | '/app/feed'
     | '/app/post'
     | '/app/profile'
+    | '/api/public/pesapal-ipn'
     | '/app/profile/$id'
   fileRoutesById: FileRoutesById
 }
@@ -243,6 +267,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   VerifyRoute: typeof VerifyRoute
   WelcomeRoute: typeof WelcomeRoute
+  ApiPublicPesapalIpnRoute: typeof ApiPublicPesapalIpnRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -359,12 +384,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/boost': {
+      id: '/app/boost'
+      path: '/boost'
+      fullPath: '/app/boost'
+      preLoaderRoute: typeof AppBoostRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/profile/$id': {
       id: '/app/profile/$id'
       path: '/$id'
       fullPath: '/app/profile/$id'
       preLoaderRoute: typeof AppProfileIdRouteImport
       parentRoute: typeof AppProfileRoute
+    }
+    '/api/public/pesapal-ipn': {
+      id: '/api/public/pesapal-ipn'
+      path: '/api/public/pesapal-ipn'
+      fullPath: '/api/public/pesapal-ipn'
+      preLoaderRoute: typeof ApiPublicPesapalIpnRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -382,6 +421,7 @@ const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppBoostRoute: typeof AppBoostRoute
   AppChatRoute: typeof AppChatRoute
   AppExploreRoute: typeof AppExploreRoute
   AppFeedRoute: typeof AppFeedRoute
@@ -390,6 +430,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppBoostRoute: AppBoostRoute,
   AppChatRoute: AppChatRoute,
   AppExploreRoute: AppExploreRoute,
   AppFeedRoute: AppFeedRoute,
@@ -411,6 +452,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   VerifyRoute: VerifyRoute,
   WelcomeRoute: WelcomeRoute,
+  ApiPublicPesapalIpnRoute: ApiPublicPesapalIpnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

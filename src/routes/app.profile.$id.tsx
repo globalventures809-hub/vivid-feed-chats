@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { ArrowLeft, MapPin, UserCheck, UserPlus } from "lucide-react";
 import { COUNTRIES } from "@/lib/countries";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 
 export const Route = createFileRoute("/app/profile/$id")({
   component: UserProfile,
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/app/profile/$id")({
 type Profile = {
   id: string; username: string | null; name: string | null; bio: string | null;
   photo_url: string | null; cover_url: string | null; country: string | null; location: string | null;
+  verified?: boolean | null;
 };
 
 function UserProfile() {
@@ -64,7 +66,10 @@ function UserProfile() {
         {profile?.photo_url
           ? <img src={profile.photo_url} alt="" className="h-28 w-28 rounded-full border-4 border-background object-cover bg-background shadow-lg" />
           : <div className="h-28 w-28 rounded-full border-4 border-background brand-gradient shadow-lg" />}
-        <h2 className="mt-3 text-xl font-bold">{profile?.name ?? "User"}</h2>
+        <h2 className="mt-3 text-xl font-bold inline-flex items-center gap-1.5">
+          {profile?.name ?? "User"}
+          {profile?.verified && <VerifiedBadge size={18} />}
+        </h2>
         <p className="text-sm text-muted-foreground">@{profile?.username ?? "user"}</p>
         {profile?.bio && <p className="mt-2 text-sm text-center max-w-xs">{profile.bio}</p>}
         {(country || profile?.location) && (

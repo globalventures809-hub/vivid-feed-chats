@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.expire_boosts_and_verifications() FROM PUBLIC, anon, authenticated;

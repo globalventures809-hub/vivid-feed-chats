@@ -100,3 +100,16 @@
 /* snap feed */
 .feed-snap { scroll-snap-type: y mandatory; }
 .feed-snap > * { scroll-snap-align: start; scroll-snap-stop: always; }
+
+/* Disable text selection & copy across the app (UX deterrent) */
+html, body {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+}
+/* Re-enable in inputs/textareas so users can still type */
+input, textarea, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}

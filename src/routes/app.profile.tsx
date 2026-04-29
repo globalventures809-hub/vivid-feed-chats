@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
-import { LogOut, MapPin, Settings } from "lucide-react";
+import { LogOut, MapPin, Rocket, Settings } from "lucide-react";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 
 export const Route = createFileRoute("/app/profile")({
   component: MyProfile,
@@ -53,7 +54,10 @@ function MyProfile() {
         ) : (
           <div className="h-28 w-28 rounded-full border-4 border-background brand-gradient shadow-lg" />
         )}
-        <h2 className="mt-3 text-xl font-bold">{profile?.name ?? "Your name"}</h2>
+        <h2 className="mt-3 text-xl font-bold inline-flex items-center gap-1.5">
+          {profile?.name ?? "Your name"}
+          {profile?.verified && <VerifiedBadge size={18} />}
+        </h2>
         <p className="text-sm text-muted-foreground">@{profile?.username ?? "username"}</p>
         {(country || profile?.location) && (
           <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
@@ -66,12 +70,20 @@ function MyProfile() {
           <Stat n={counts.followers} label="Followers" />
           <Stat n={counts.following} label="Following" />
         </div>
-        <button
-          onClick={async () => { await signOut(); navigate({ to: "/welcome" }); }}
-          className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
-        >
-          <LogOut className="h-4 w-4" /> Sign out
-        </button>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+          <button
+            onClick={() => navigate({ to: "/app/boost" })}
+            className="inline-flex items-center gap-2 rounded-full brand-gradient text-brand-foreground px-5 py-2 text-sm font-bold shadow-brand"
+          >
+            <Rocket className="h-4 w-4" /> Boost & Verify
+          </button>
+          <button
+            onClick={async () => { await signOut(); navigate({ to: "/welcome" }); }}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-accent"
+          >
+            <LogOut className="h-4 w-4" /> Sign out
+          </button>
+        </div>
       </div>
     </div>
   );

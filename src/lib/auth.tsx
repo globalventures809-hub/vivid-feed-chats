@@ -12,6 +12,8 @@ type Profile = {
   country: string | null;
   location: string | null;
   setup_complete: boolean;
+  verified?: boolean | null;
+  verified_until?: string | null;
 };
 
 type AuthContextValue = {
